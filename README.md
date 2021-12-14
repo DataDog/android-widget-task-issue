@@ -8,9 +8,12 @@ When launching a `startActivityForResult` or `ActivityCallback.StartActivityForR
 
 I discovered this issue while working on the Datadog app.
 The Datadog app has widgets for which users must first authenticate through an oAuth flow before being able to configure it.
+
 Historically, to reach the widget configuration activity, from which our oAuth flow is launched, users simply clicked somewhere on our widget: This used
 a `PendingIntent.getActivity(...)` mechanism.
+
 We've been trying to implement the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration), where the configuration activity is launched by the system.
+
 (From my understanding, this is done by the framework method `com.android.server.appwidget.AppWidgetServiceImpl.createAppWidgetConfigIntentSender`)
 However, our oAuth flow is broken by this new feature.
 
