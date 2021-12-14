@@ -78,6 +78,10 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: Y
 
 - **Step 6**: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
 
+### Tested on
+
+- Pixel 4 / Android 12
+
 ### What the correct behavior should be
 
 When I use `startActivityForResult` from the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
