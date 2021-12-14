@@ -44,7 +44,7 @@ Legend:
 
 ## Steps to reproduce:
 
-- **Step 1**: Clone this sandbox: https://github.com/qlitzler/android-widget-task-issue
+- **Step 1**: Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
 - **Step 2**: Build & Install the application `WidgetTaskIssue`
 - **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` your home.
 - **Step 4**: Tap anywhere on the widget. Activities will open. In your logcat, filter by `System.out`, you should see:
