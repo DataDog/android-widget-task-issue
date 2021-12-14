@@ -80,7 +80,7 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: Y
 
 ### What the correct behavior should be
 
-When I use `startActivityForResult from the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
+When I use `startActivityForResult` from the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
 or from any other method, I should always get the same task management, which is the one described in the output of **Step 4**.
 
 ### Additional question
