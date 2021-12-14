@@ -47,10 +47,10 @@ I could not add this step in the sandbox linked below, so I simplified.
 
 ## Steps to reproduce:
 
-- Step 1: Clone this sandbox: https://github.com/DataDog/android-widget-task-issue
-- Step 2: Build & Install the application `WidgetTaskIssue`
-- Step 3: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` your home.
-- Step 4: Tap anywhere on the widget. Activities will open. In your logcat, filter by `System.out`, you should see:
+- **Step 1**: Clone this sandbox: https://github.com/DataDog/android-widget-task-issue
+- **Step 2**: Build & Install the application `WidgetTaskIssue`
+- **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` your home.
+- **Step 4**: Tap anywhere on the widget. Activities will open. In your logcat, filter by `System.out`, you should see:
 
 ```
 com.datadog.sandbox I/System.out: [Configuration]: X
@@ -62,8 +62,10 @@ com.datadog.sandbox I/System.out: [Oauth] Resume: X
 
 `X` and `Y` are integers representing an `activity.taskId`. In this case, a single `OAuth` activity exists, and it runs in the same `taskId`.
 
+**Clear all opened activies**
 
-- Step 5: Long press your widget and tap the configuration icon (The little pen). Activities will open. In your logcat, filter by `System.out`, you should see:
+
+- **Step 5**: Long press your widget and tap the configuration icon (The little pen). Activities will open. In your logcat, filter by `System.out`, you should see:
 
 ```
 com.datadog.sandbox I/System.out: [Configuration]: W
@@ -78,7 +80,7 @@ com.datadog.sandbox I/System.out: [Oauth] Resume: Y
 
 `W`, `X`, `Y` and `Z` are integers representing an `activity.taskId`. In this case, several `OAuth` activity exists, and it runs in two different taskIds: `W` and `Y`.
 
-- Step 6: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
+- **Step 6**: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
 
 ### What the correct behavior should be
 
