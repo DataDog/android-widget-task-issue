@@ -81,6 +81,7 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: Y
 ### Tested on
 
 - Pixel 4 / Android 12
+- Pixel 3a / Android 12
 
 ### What the correct behavior should be
 
