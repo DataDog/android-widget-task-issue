@@ -17,7 +17,7 @@ Then I've been trying to implement the [new widget configuration mechanism](http
 (From my understanding, this is done by the framework method `com.android.server.appwidget.AppWidgetServiceImpl.createAppWidgetConfigIntentSender`)
 However, the oAuth flow is broken by this new feature.
 
-I've reproduced schematically the oAuth flow in a sandbox that you can check out below.
+I've reproduced schematically the OAuth flow in a sandbox that you can check out below.
 
 Some ASCII art to illustrate this flow:
 
