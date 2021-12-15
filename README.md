@@ -85,9 +85,8 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
 
 ### Why it is problematic
 
-It breaks the OAuth flow, which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new instead being recreated in a different task.
-
-Also, whether my activity is launched from my app process vs a background service process, the task management should remain identical, otherwise I can't trust the Android documentation about activities and launch flags.
+Whether my activity is launched from my app process vs a background service process, the task management should remain identical, otherwise I can't trust the [Android documentation](https://developer.android.com/guide/components/activities/tasks-and-back-stack) about activities and launch flags.
+It also breaks any OAuth implementing the aforementioned activity flow, which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new instead being recreated in a different task.
 
 ### What the correct behavior should be
 
