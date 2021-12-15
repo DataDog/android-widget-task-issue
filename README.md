@@ -8,7 +8,7 @@ When launching a `startActivityForResult` or `ActivityCallback.StartActivityForR
 
 I discovered this issue while working with widgets.
 
-Users of these widgets must authenticate through an oAuth flow as part of the configuration process.
+Users of these widgets must authenticate through an OAuth flow as part of the configuration process.
 
 Everything was fine while I was opening the widget's configuration activity from the `PendingIntent.getActivity(...)` mechanism.
 
