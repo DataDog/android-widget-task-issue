@@ -44,25 +44,25 @@ Legend:
 
 ## Steps to reproduce:
 
-##### Step 1
+#### Step 1
 Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
 
-##### Step 2
+#### Step 2
 Build & Install the application `WidgetTaskIssue`
 
 ### Android 12
 
-##### Step 3
+#### Step 3
 Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
 
-##### Step 4 
+#### Step 4 
   - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
 
 In your logcat, filter by `System.out`, you should see the [proper output](#proper-logcat-output)
 
-##### Step 5
+#### Step 5
 Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
   - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
@@ -70,15 +70,15 @@ Long press your widget and tap the configuration icon (The little pen) or use dr
   
 In your logcat, filter by `System.out`, you should see the [faulty output](#faulty-logcat-output)
 
-##### Step 6(Bonus).
+#### Step 6 (Bonus).
 In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
 
 ### <= Android 11
 
-##### Step 3
+#### Step 3
 Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
 
-##### Step 4
+#### Step 4
 The configuration activity should open automatically.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
@@ -86,7 +86,7 @@ The configuration activity should open automatically.
 
 In your logcat, filter by `System.out`, you should see the [faulty output](#faulty-logcat-output)
 
-##### Step 5
+#### Step 5
 Now that you have a widget installed and configured.
   - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
@@ -129,8 +129,11 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: X
 
 ## Why it is problematic
 
-Whether my activity is launched from my app process vs a background service process, the task management should remain identical, otherwise I can't trust the [Android documentation](https://developer.android.com/guide/components/activities/tasks-and-back-stack) about activities and launch flags.
-It also breaks any OAuth implementing the aforementioned activity flow, which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new instead being recreated in a different task.
+Whether my activity is launched from my app process vs a background service process, the task management should remain identical,
+otherwise I can't trust the [Android documentation](https://developer.android.com/guide/components/activities/tasks-and-back-stack) about activities and launch flags.
+
+It also breaks any OAuth implementing the aforementioned activity flow,
+which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new activity being recreated in a different task.
 
 ## What the correct behavior should be
 
