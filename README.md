@@ -44,43 +44,42 @@ Legend:
 
 ## Steps to reproduce:
 
-- **Step 1**: Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
-- **Step 2**: Build & Install the application `WidgetTaskIssue`
+1): Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
+2): Build & Install the application `WidgetTaskIssue`
 
 ### Android 12
 
-- **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
-- **Step 4**: 
-  - Tap "Open configuration" button on the widget.
-  - Tap "Start OAuth" button
-  - Tap "Get callback" button
+3) Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
+4) 
+  - Tap `Open configuration` button on the widget.
+  - Tap `Start OAuth` button
+  - Tap `Get callback` button
 
 In your logcat, filter by `System.out`, you should see the [proper output](#proper-logcat-output)
 
-- **Step 5**:
-  - Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
-  - Tap "Open configuration" button on the widget.
-  - Tap "Start OAuth" button
-  - Tap "Get callback" button
+5) Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
+  - Tap `Open configuration` button on the widget.
+  - Tap `Start OAuth` button
+  - Tap `Get callback` button
   
 In your logcat, filter by `System.out`, you should see the [faulty output](#faulty-logcat-output)
 
-- **Step 6**: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
+6) (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
 
 ### <= Android 11
 
-- **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
-- **Step 4**: The configuration activity should open automatically.
-    - Tap "Start OAuth" button
-    - Tap "Get callback" button
-    - Tap the close button to close the activity
+3) Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
+4) The configuration activity should open automatically.
+  - Tap `Start OAuth` button
+  - Tap `Get callback` button
+  - Tap the close button to close the activity
 
 In your logcat, filter by `System.out`, you should see the [faulty output](#faulty-logcat-output)
 
-- **Step 5**: Now that you have a widget installed and configured.
-    - Tap "Open configuration" button on the widget.
-    - Tap "Start OAuth" button
-    - Tap "Get callback" button
+5) Now that you have a widget installed and configured.
+  - Tap `Open configuration` button on the widget.
+  - Tap `Start OAuth` button
+  - Tap `Get callback` button
 
 In your logcat, filter by `System.out`, you should see the [proper output](#proper-logcat-output)
 
@@ -125,9 +124,9 @@ It also breaks any OAuth implementing the aforementioned activity flow, which re
 ## What the correct behavior should be
 
 When I use `startActivityForResult` from a background service such as the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
-or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the output of **Step 4**.
+or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the [proper output](#proper-logcat-output).
 
 ## Additional question
 
-- `startActivity` produces the expected task management, while `startActivityForResult` does not. Why is that ? (see **Step 6**)
+- `startActivity` produces the expected task management, while `startActivityForResult` does not. Why is that ?
 - Is there any workaround in the meantime ? Ideally one that would allow to keep the `startActivityForResult` call.
