@@ -13,8 +13,29 @@ class WidgetConfigurationActivity : AppCompatActivity(R.layout.widget_configurat
         println("[Configuration]: $taskId")
         val intent = OAuthActivity.getIntent(this)
 
+        setResult(RESULT_CANCELED)
         startActivityForResult(intent, 10)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 10 && resultCode == RESULT_OK) {
+            val appWidgetId = intent?.extras?.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+
+            if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                val resultValue = Intent().apply {
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                }
+
+                setResult(RESULT_OK, resultValue)
+            }
+        }
+        finish()
+    }
+
 
     companion object {
 

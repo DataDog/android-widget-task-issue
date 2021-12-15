@@ -10,7 +10,9 @@ class OAuthCallbackActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("[Callback]: $taskId")
-        val intent = OAuthActivity.getIntent(this)
+        val intent = OAuthActivity.getIntent(this).apply {
+            putExtra(OAuthActivity.CALLBACK, true)
+        }
 
         startActivity(intent)
         finish()

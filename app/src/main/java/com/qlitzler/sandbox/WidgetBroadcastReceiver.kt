@@ -11,9 +11,12 @@ class WidgetBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE) {
-            val widgetId = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)?.firstOrNull()
+            val widgetId = intent.extras
+                ?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                ?.firstOrNull()
+                ?: intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
 
-            if (widgetId != null) {
+            if (widgetId != null && widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 val remoteView = RemoteViews(context.packageName, R.layout.widget)
                 val configurationIntent = WidgetConfigurationActivity.getIntent(context, widgetId)
 
@@ -23,7 +26,7 @@ class WidgetBroadcastReceiver : BroadcastReceiver() {
                     configurationIntent,
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
-                remoteView.setOnClickPendingIntent(R.id.widget, activity)
+                remoteView.setOnClickPendingIntent(R.id.widgetRoot, activity)
                 AppWidgetManager.getInstance(context).updateAppWidget(widgetId, remoteView)
             }
         }

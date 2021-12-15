@@ -10,17 +10,30 @@ class OAuthActivity : AppCompatActivity(R.layout.oauth_activity) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("[Oauth] Create: $taskId")
-        val intent = OAuthCallbackActivity.getIntent(this)
+        if (intent.extras == null) {
+            val intent = OAuthCallbackActivity.getIntent(this)
 
-        startActivity(intent)
+            startActivity(intent)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 
     override fun onResume() {
         super.onResume()
         println("[Oauth] Resume: $taskId")
+        if (intent.extras?.getBoolean(CALLBACK, false) == true) {
+            setResult(RESULT_OK)
+            finish()
+        }
     }
 
     companion object {
+
+        const val CALLBACK = "callback"
 
         fun getIntent(context: Context): Intent {
             return Intent(context, OAuthActivity::class.java).apply {
