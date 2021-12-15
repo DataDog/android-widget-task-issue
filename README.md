@@ -65,7 +65,6 @@ In your logcat, filter by `System.out`, you should see the [proper output](#prop
 
 #### Step 5
 Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
-  - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
   
