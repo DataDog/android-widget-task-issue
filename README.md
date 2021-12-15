@@ -64,17 +64,17 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: X
 - **Step 5**: Long press your widget and tap the configuration icon (The little pen). Activities will open. In your logcat, filter by `System.out`, you should see:
 
 ```
-com.qlitzler.sandbox I/System.out: [Configuration]: W
-com.qlitzler.sandbox I/System.out: [Oauth] Create: W
-com.qlitzler.sandbox I/System.out: [Oauth] Resume: W
-com.qlitzler.sandbox I/System.out: [Callback]: X
-com.qlitzler.sandbox I/System.out: [Oauth] Create: Y
-com.qlitzler.sandbox I/System.out: [Oauth] Resume: Y
-com.qlitzler.sandbox I/System.out: [Callback]: Z
-com.qlitzler.sandbox I/System.out: [Oauth] Resume: Y
+com.qlitzler.sandbox I/System.out: [Configuration]: A
+com.qlitzler.sandbox I/System.out: [Oauth] Create: A
+com.qlitzler.sandbox I/System.out: [Oauth] Resume: A
+com.qlitzler.sandbox I/System.out: [Callback]: B
+com.qlitzler.sandbox I/System.out: [Oauth] Create: C
+com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
+com.qlitzler.sandbox I/System.out: [Callback]: D
+com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
 ```
 
-`W`, `X`, `Y` and `Z` are integers representing an `activity.taskId`. In this case, several `OAuth` activity exists, and it runs in two different taskIds: `W` and `Y`.
+`A`, `B`, `C` and `D` are integers representing an `activity.taskId`. In this case, several `OAuth` activity exists, and it runs in two different taskIds: `A` and `C`.
 
 - **Step 6**: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
 
