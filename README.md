@@ -10,16 +10,17 @@ I discovered this issue while working with widgets.
 
 Users of these widgets must authenticate through an OAuth flow as part of the configuration process.
 
-Everything was fine while I was opening the widget's configuration activity from the `PendingIntent.getActivity(...)` mechanism.
+Everything was fine while I was opening the widget's configuration activity from a call to `PendingIntent.getActivity(...)`.
 
-Then I've been trying to implement the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration), where the configuration activity is launched by the system.
+Then I've been trying to implement the [widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration), where the configuration activity is launched by the system, and from what I understand, a different task / process.
 
-(From my understanding, this is done by the framework method `com.android.server.appwidget.AppWidgetServiceImpl.createAppWidgetConfigIntentSender`)
-However, the oAuth flow is broken by this new feature.
+(This is done by the framework method `com.android.server.appwidget.AppWidgetServiceImpl.createAppWidgetConfigIntentSender`)
 
-I've reproduced schematically the OAuth flow in a sandbox that you can check out below.
+That's where the trouble began: If launched from the system, the activities task management does not work the same as from my own task / app process.
 
-Some ASCII art to illustrate this flow:
+I've reproduced schematically the OAuth / Activity flow in a sandbox that you can check out in this [github repository](https://github.com/Datadog/android-widget-task-issue). 
+
+And here is some ASCII art to illustrate this flow:
 
 ```
                           Back Stack Towards Top
@@ -34,9 +35,9 @@ Some ASCII art to illustrate this flow:
  +------------+            +-+---+---------+            +----------------+
 
 Legend:
-(1): startActivityForResult
-(2): startActivity
-(3): startActivity with flags: CLEAR_TOP | SINGLE_TOP
+(1): startActivityForResult to `OAuthActivity`
+(2): startActivity to `OAuthCallBackActivity`
+(3): startActivity with flags: CLEAR_TOP | SINGLE_TOP to `OAuthActivity`
 (4): finish() (with setResult(OK/CANCEL)
 (SI): launchMode="singleInstance"
 (ST): launchMode="singleTask"
@@ -137,7 +138,7 @@ which relies on previously created activity resuming through `onNewIntent` / `on
 
 ## What the correct behavior should be
 
-When I use `startActivityForResult` from a background service such as the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
+When I use `startActivityForResult` from a background service such as the [widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
 or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the [proper output](#proper-logcat-output).
 
 ## Additional question
