@@ -44,6 +44,8 @@ Legend:
 
 ## Steps to reproduce:
 
+
+
 - **Step 1**: Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
 - **Step 2**: Build & Install the application `WidgetTaskIssue`
 - **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` your home.
@@ -58,8 +60,6 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: X
 ```
 
 `X` and `Y` are integers representing an `activity.taskId`. In this case, a single `OAuth` activity exists, and it runs in the same `taskId`.
-
-**Clean all opened activities**
 
 - **Step 5**: Long press your widget and tap the configuration icon (The little pen). Activities will open. In your logcat, filter by `System.out`, you should see:
 
