@@ -75,14 +75,14 @@ In your logcat, filter by `System.out`, you should see the [faulty output](#Faul
     - Tap "Get callback" button
     - Tap the close button to close the activity
 
-In your logcat, filter by `System.out`, you should see the [faulty output](#Faulty logcat output)
+In your logcat, filter by `System.out`, you should see the [faulty output](#faulty logcat output)
 
 - **Step 5**: Now that you have a widget installed and configured.
     - Tap "Open configuration" button on the widget.
     - Tap "Start OAuth" button
     - Tap "Get callback" button
 
-In your logcat, filter by `System.out`, you should see the [proper output](#Proper logcat output)
+In your logcat, filter by `System.out`, you should see the [proper output](#proper logcat output)
 
 ### Faulty logcat output
 
