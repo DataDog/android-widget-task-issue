@@ -95,6 +95,32 @@ Now that you have a widget installed and configured.
 
 In your logcat, filter by `System.out`, you should see the [proper output](#proper-logcat-output)
 
+## Tested on
+
+- Pixel 4 / Android 12
+- Pixel 3a / Android 12
+- Xiaomi 10 / Android 11
+
+## Why it is problematic
+
+Whether my activity is launched from my app process vs a background service process, the task management should remain identical,
+otherwise I can't trust the [Android documentation](https://developer.android.com/guide/components/activities/tasks-and-back-stack) about activities and launch flags.
+
+It also breaks any OAuth implementing the aforementioned activity flow,
+which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new activity being recreated in a different task.
+
+## What the correct behavior should be
+
+When I use `startActivityForResult` from a background service such as the [widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
+or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the [proper output](#proper-logcat-output).
+
+## Additional question
+
+- `startActivity` produces the expected task management, while `startActivityForResult` does not. Why is that ?
+- Is there any workaround in the meantime ? Ideally one that would allow to keep the `startActivityForResult` call.
+
+## Appendix
+
 ### Faulty logcat output
 
 ```
@@ -120,28 +146,3 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: X
 ```
 
 `X` and `Y` are integers representing an `activity.taskId`. In this case, a single `OAuth` activity exists, and it runs in the same `taskId`.
-
-
-## Tested on
-
-- Pixel 4 / Android 12
-- Pixel 3a / Android 12
-- Xiaomi 10 / Android 11
-
-## Why it is problematic
-
-Whether my activity is launched from my app process vs a background service process, the task management should remain identical,
-otherwise I can't trust the [Android documentation](https://developer.android.com/guide/components/activities/tasks-and-back-stack) about activities and launch flags.
-
-It also breaks any OAuth implementing the aforementioned activity flow,
-which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new activity being recreated in a different task.
-
-## What the correct behavior should be
-
-When I use `startActivityForResult` from a background service such as the [widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
-or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the [proper output](#proper-logcat-output).
-
-## Additional question
-
-- `startActivity` produces the expected task management, while `startActivityForResult` does not. Why is that ?
-- Is there any workaround in the meantime ? Ideally one that would allow to keep the `startActivityForResult` call.
