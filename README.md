@@ -83,11 +83,18 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
 - Pixel 4 / Android 12
 - Pixel 3a / Android 12
 
+### Why it is problematic
+
+It breaks the OAuth flow, which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new instead being recreated in a different task.
+
+Also, whether my activity is launched from my app process vs a background service process, the task management should remain identical, otherwise I can't trust the Android documentation about activities and launch flags.
+
 ### What the correct behavior should be
 
-When I use `startActivityForResult` from the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
-or from any other method, I should always get the same task management, which is the one described in the output of **Step 4**.
+When I use `startActivityForResult` from a background service such as the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
+or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the output of **Step 4**.
 
 ### Additional question
 
-Why is `startActivityForResult` different from `startActivity` in this use case ? (see **Step 6**)
+- `startActivity` produces the expected task management, while `startActivityForResult` does not. Why is that ? (see **Step 6**)
+- Is there any workaround in the meantime ? Ideally one that would allow to keep the `startActivityForResult` call.
