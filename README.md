@@ -44,39 +44,50 @@ Legend:
 
 ## Steps to reproduce:
 
-1): Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
-2): Build & Install the application `WidgetTaskIssue`
+##### Step 1
+Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
+
+##### Step 2
+Build & Install the application `WidgetTaskIssue`
 
 ### Android 12
 
-3) Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
-4) 
+##### Step 3
+Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
+
+##### Step 4 
   - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
 
 In your logcat, filter by `System.out`, you should see the [proper output](#proper-logcat-output)
 
-5) Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
+##### Step 5
+Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
   - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
   
 In your logcat, filter by `System.out`, you should see the [faulty output](#faulty-logcat-output)
 
-6) (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
+##### Step 6(Bonus).
+In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
 
 ### <= Android 11
 
-3) Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
-4) The configuration activity should open automatically.
+##### Step 3
+Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
+
+##### Step 4
+The configuration activity should open automatically.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
   - Tap the close button to close the activity
 
 In your logcat, filter by `System.out`, you should see the [faulty output](#faulty-logcat-output)
 
-5) Now that you have a widget installed and configured.
+##### Step 5
+Now that you have a widget installed and configured.
   - Tap `Open configuration` button on the widget.
   - Tap `Start OAuth` button
   - Tap `Get callback` button
