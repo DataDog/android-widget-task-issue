@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class WidgetConfigurationActivity : AppCompatActivity(R.layout.widget_configuration_activity) {
@@ -11,10 +12,12 @@ class WidgetConfigurationActivity : AppCompatActivity(R.layout.widget_configurat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("[Configuration]: $taskId")
-        val intent = OAuthActivity.getIntent(this)
+        findViewById<Button>(R.id.startOauth).setOnClickListener {
+            val intent = OAuthActivity.getIntent(this)
 
-        setResult(RESULT_CANCELED)
-        startActivityForResult(intent, 10)
+            setResult(RESULT_CANCELED)
+            startActivityForResult(intent, 10)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

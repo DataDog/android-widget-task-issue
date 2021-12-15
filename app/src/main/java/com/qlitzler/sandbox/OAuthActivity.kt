@@ -3,6 +3,7 @@ package com.qlitzler.sandbox
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class OAuthActivity : AppCompatActivity(R.layout.oauth_activity) {
@@ -10,7 +11,7 @@ class OAuthActivity : AppCompatActivity(R.layout.oauth_activity) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("[Oauth] Create: $taskId")
-        if (intent.extras == null) {
+        findViewById<Button>(R.id.getCallback).setOnClickListener {
             val intent = OAuthCallbackActivity.getIntent(this)
 
             startActivity(intent)

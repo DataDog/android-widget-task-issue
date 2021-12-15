@@ -26,7 +26,7 @@ class WidgetBroadcastReceiver : BroadcastReceiver() {
                     configurationIntent,
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
-                remoteView.setOnClickPendingIntent(R.id.widgetRoot, activity)
+                remoteView.setOnClickPendingIntent(R.id.open, activity)
                 AppWidgetManager.getInstance(context).updateAppWidget(widgetId, remoteView)
             }
         }
