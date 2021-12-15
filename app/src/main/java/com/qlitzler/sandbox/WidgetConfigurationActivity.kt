@@ -18,27 +18,33 @@ class WidgetConfigurationActivity : AppCompatActivity(R.layout.widget_configurat
             setResult(RESULT_CANCELED)
             startActivityForResult(intent, 10)
         }
+        findViewById<Button>(R.id.close).setOnClickListener {
+            success()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 10 && resultCode == RESULT_OK) {
-            val appWidgetId = intent?.extras?.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
-            ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+            success()
+        }
+    }
 
-            if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-                val resultValue = Intent().apply {
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                }
+    private fun success() {
+        val appWidgetId = intent?.extras?.getInt(
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID
+        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
-                setResult(RESULT_OK, resultValue)
+        if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            val resultValue = Intent().apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             }
+
+            setResult(RESULT_OK, resultValue)
         }
         finish()
     }
-
 
     companion object {
 
