@@ -25,13 +25,13 @@ Some ASCII art to illustrate this flow:
                           Back Stack Towards Top
                 +------------------------------------------>
 
- +------------+            +---------------+      +----------------+     
- |            |     (1)    |               | (2)  |                | 
- | Widget     +----------->|    OAuth      +----->| OAuthCallback  +
- | Config     |            |    Activity   |      |   Activity     |
- | Activity   |<-----------+               |<-----+                |
- |  (SI)      |     (4)    |      (ST)     | (3)  |     (SI)       | 
- +------------+            +-+---+---------+      +----------------+
+ +------------+            +---------------+            +----------------+     
+ |            |     (1)    |               | (2)        |                | 
+ | Widget     +----------->|    OAuth      +----------->| OAuthCallback  +
+ | Config     |            |    Activity   |            |   Activity     |
+ | Activity   |<-----------+               |<-----------+                |
+ |  (SI)      |     (4)    |      (ST)     | (3)        |     (SI)       | 
+ +------------+            +-+---+---------+            +----------------+
 
 Legend:
 (1): startActivityForResult
@@ -44,12 +44,61 @@ Legend:
 
 ## Steps to reproduce:
 
-
-
 - **Step 1**: Clone this sandbox: https://github.com/Datadog/android-widget-task-issue
 - **Step 2**: Build & Install the application `WidgetTaskIssue`
-- **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` your home.
-- **Step 4**: Tap anywhere on the widget. Activities will open. In your logcat, filter by `System.out`, you should see:
+
+### Android 12
+
+- **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
+- **Step 4**: 
+  - Tap "Open configuration" button on the widget.
+  - Tap "Start OAuth" button
+  - Tap "Get callback" button
+
+In your logcat, filter by `System.out`, you should see the [proper output](#Proper logcat output)
+
+- **Step 5**:
+  - Long press your widget and tap the configuration icon (The little pen) or use drag & drop.
+  - Tap "Open configuration" button on the widget.
+  - Tap "Start OAuth" button
+  - Tap "Get callback" button
+  
+In your logcat, filter by `System.out`, you should see the [faulty output](#Faulty logcat output)
+
+- **Step 6**: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
+
+### <= Android 11
+
+- **Step 3**: Open your widget picker for the `WidgetTaskIssue` application, and set up the widget named `Widget` on your home screen.
+- **Step 4**: The configuration activity should open automatically.
+    - Tap "Start OAuth" button
+    - Tap "Get callback" button
+    - Tap the close button to close the activity
+
+In your logcat, filter by `System.out`, you should see the [faulty output](#Faulty logcat output)
+
+- **Step 5**: Now that you have a widget installed and configured.
+    - Tap "Open configuration" button on the widget.
+    - Tap "Start OAuth" button
+    - Tap "Get callback" button
+
+In your logcat, filter by `System.out`, you should see the [proper output](#Proper logcat output)
+
+### Faulty logcat output
+
+```
+com.qlitzler.sandbox I/System.out: [Configuration]: A
+com.qlitzler.sandbox I/System.out: [Oauth] Create: A
+com.qlitzler.sandbox I/System.out: [Oauth] Resume: A
+com.qlitzler.sandbox I/System.out: [Callback]: B
+com.qlitzler.sandbox I/System.out: [Oauth] Create: C
+com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
+com.qlitzler.sandbox I/System.out: [Oauth] Resume: A
+```
+
+`A`, `B`, `C` and `D` are integers representing an `activity.taskId`. In this case, several `OAuth` activity exists, and it runs in two different taskIds: `A` and `C`.
+
+### Proper logcat output
 
 ```
 com.qlitzler.sandbox I/System.out: [Configuration]: X
@@ -61,39 +110,24 @@ com.qlitzler.sandbox I/System.out: [Oauth] Resume: X
 
 `X` and `Y` are integers representing an `activity.taskId`. In this case, a single `OAuth` activity exists, and it runs in the same `taskId`.
 
-- **Step 5**: Long press your widget and tap the configuration icon (The little pen). Activities will open. In your logcat, filter by `System.out`, you should see:
 
-```
-com.qlitzler.sandbox I/System.out: [Configuration]: A
-com.qlitzler.sandbox I/System.out: [Oauth] Create: A
-com.qlitzler.sandbox I/System.out: [Oauth] Resume: A
-com.qlitzler.sandbox I/System.out: [Callback]: B
-com.qlitzler.sandbox I/System.out: [Oauth] Create: C
-com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
-com.qlitzler.sandbox I/System.out: [Callback]: D
-com.qlitzler.sandbox I/System.out: [Oauth] Resume: C
-```
-
-`A`, `B`, `C` and `D` are integers representing an `activity.taskId`. In this case, several `OAuth` activity exists, and it runs in two different taskIds: `A` and `C`.
-
-- **Step 6**: (Bonus). In the code, replace `startActivityForResult` by `startActivity`, and pick up at **Step 5**. You'll get the output of **Step 4** !
-
-### Tested on
+## Tested on
 
 - Pixel 4 / Android 12
 - Pixel 3a / Android 12
+- Xiaomi 10 / Android 11
 
-### Why it is problematic
+## Why it is problematic
 
 Whether my activity is launched from my app process vs a background service process, the task management should remain identical, otherwise I can't trust the [Android documentation](https://developer.android.com/guide/components/activities/tasks-and-back-stack) about activities and launch flags.
 It also breaks any OAuth implementing the aforementioned activity flow, which relies on previously created activity resuming through `onNewIntent` / `onResume`, instead of a new instead being recreated in a different task.
 
-### What the correct behavior should be
+## What the correct behavior should be
 
 When I use `startActivityForResult` from a background service such as the [new widget configuration mechanism](https://developer.android.com/guide/topics/appwidgets/configuration),
 or from any other method, I should always get the same task management than if I launch from an app process, which is the one described in the output of **Step 4**.
 
-### Additional question
+## Additional question
 
 - `startActivity` produces the expected task management, while `startActivityForResult` does not. Why is that ? (see **Step 6**)
 - Is there any workaround in the meantime ? Ideally one that would allow to keep the `startActivityForResult` call.
